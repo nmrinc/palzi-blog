@@ -5,7 +5,7 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			usuarios: [],
+			users: [],
 		};
 	}
 
@@ -13,31 +13,18 @@ class App extends Component {
 		const response = await axios.get(
 			'https://jsonplaceholder.typicode.com/users'
 		);
-		console.log('====================================');
-		console.log(response.data);
-		console.log('====================================');
+
 		this.setState({
-			usuarios: [
-				{
-					name: 'Erick',
-					mail: 'nmr.inc@icloud.com',
-					url: 'nmr_inc.com',
-				},
-				{
-					name: 'Platzi',
-					mail: 'platzi@platzi.com',
-					url: 'platzi.com',
-				},
-			],
+			users: response.data,
 		});
 	}
 
 	ponerFilas = () =>
-		this.state.usuarios.map((item) => (
-			<tr>
+		this.state.users.map((item) => (
+			<tr key={item.id}>
 				<td>{item.name}</td>
-				<td>{item.mail}</td>
-				<td>{item.url}</td>
+				<td>{item.email}</td>
+				<td>{item.website}</td>
 			</tr>
 		));
 
