@@ -6,3 +6,7 @@
     width: 100%;
     text-align: left;
 }
+
+.tabla td {
+    padding: 1em 0 1em 0;
+}
