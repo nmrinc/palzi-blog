@@ -1,9 +1,22 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			usuarios: [],
+		};
+	}
+
+	async componentDidMount() {
+		const response = await axios.get(
+			'https://jsonplaceholder.typicode.com/users'
+		);
+		console.log('====================================');
+		console.log(response.data);
+		console.log('====================================');
+		this.setState({
 			usuarios: [
 				{
 					name: 'Erick',
@@ -16,10 +29,10 @@ class App extends Component {
 					url: 'platzi.com',
 				},
 			],
-		};
+		});
 	}
 
-	ponerFilas = () => {
+	ponerFilas = () =>
 		this.state.usuarios.map((item) => (
 			<tr>
 				<td>{item.name}</td>
@@ -27,16 +40,17 @@ class App extends Component {
 				<td>{item.url}</td>
 			</tr>
 		));
-	};
 
 	render() {
 		return (
 			<div className="margen">
 				<table className="tabla">
 					<thead>
-						<th>Name</th>
-						<th>Mail</th>
-						<th>URL</th>
+						<tr>
+							<th>Name</th>
+							<th>Mail</th>
+							<th>URL</th>
+						</tr>
 					</thead>
 					<tbody>{this.ponerFilas()}</tbody>
 				</table>
