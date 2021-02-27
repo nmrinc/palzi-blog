@@ -1,4 +1,4 @@
-import actionTypes from './actionTypes';
+import { GET_USERS } from '../types/usersTypes';
 import axios from 'axios';
 
 export const getUsers = () => async (dispatch) => {
@@ -7,7 +7,7 @@ export const getUsers = () => async (dispatch) => {
 	);
 
 	dispatch({
-		type: actionTypes.GET_USERS,
+		type: GET_USERS,
 		payload: response.data,
 	});
 };

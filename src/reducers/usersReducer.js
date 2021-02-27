@@ -1,4 +1,4 @@
-import actionTypes from '../actions/actionTypes';
+import { GET_USERS } from '../types/usersTypes';
 
 const INITIAL_STATE = {
 	users: [],
@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 
 const usersReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case actionTypes.GET_USERS:
+		case GET_USERS:
 			return { ...state, users: action.payload };
 
 		default:
