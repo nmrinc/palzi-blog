@@ -1,22 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 
 import { getUsers } from '../../actions/userActions';
 
 class Users extends Component {
 	componentDidMount() {
-		/* const response = await axios.get(
-			'https://jsonplaceholder.typicode.com/users'
-		);
-
-		this.setState({
-			users: response.data,
-		}); */
 		this.props.getUsers();
 	}
 
-	ponerFilas = () =>
+	assembleList = () =>
 		this.props.users.map((item) => (
 			<tr key={item.id}>
 				<td>{item.name}</td>
@@ -36,7 +28,7 @@ class Users extends Component {
 							<th>URL</th>
 						</tr>
 					</thead>
-					<tbody>{this.ponerFilas()}</tbody>
+					<tbody>{this.assembleList()}</tbody>
 				</table>
 			</div>
 		);

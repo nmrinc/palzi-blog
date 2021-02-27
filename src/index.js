@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import reduxThunk from 'redux-thunk';
 import './index.css';
 import reducers from './reducers';
 import App from './components/App';
@@ -9,7 +10,8 @@ import reportWebVitals from './reportWebVitals';
 
 const store = createStore(
 	reducers, //@o Reducers
-	{} //@o Initial state
+	{}, //@o Initial state
+	applyMiddleware(reduxThunk) //@o Middle wares and Thunk
 );
 
 ReactDOM.render(
