@@ -2,16 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
+import { getUsers } from '../../actions/userActions';
+
 class Users extends Component {
-	/* async componentDidMount() {
-		const response = await axios.get(
+	componentDidMount() {
+		/* const response = await axios.get(
 			'https://jsonplaceholder.typicode.com/users'
 		);
 
 		this.setState({
 			users: response.data,
-		});
-	} */
+		}); */
+		this.props.getUsers();
+	}
 
 	ponerFilas = () =>
 		this.props.users.map((item) => (
@@ -44,4 +47,10 @@ const mapStateToProps = (state) => {
 	return state.usersReducer;
 };
 
-export default connect(mapStateToProps, null)(Users);
+const mapDispatchToProps = (dispatch) => ({
+	getUsers: () => {
+		dispatch(getUsers());
+	},
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Users);
