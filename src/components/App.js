@@ -8,7 +8,7 @@ const Tasks = () => <div>Tasks</div>;
 const App = () => (
 	<BrowserRouter>
 		<Menu />
-		<div className="margen">
+		<div className="global_margin">
 			<Route exact path="/" component={Users} />
 			<Route exact path="/tasks" component={Tasks} />
 		</div>

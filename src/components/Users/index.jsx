@@ -31,7 +31,7 @@ class Users extends Component {
 	render() {
 		return (
 			<div>
-				<table className="tabla">
+				<table className="global_table">
 					<thead>
 						<tr>
 							<th>Name</th>
