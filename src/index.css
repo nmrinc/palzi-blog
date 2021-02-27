@@ -2,16 +2,16 @@ body {
     margin: 0;
 }
 
-.margen {
+.global_margin {
     margin: 100px;
 }
 
-.tabla {
+.global_table {
     width: 100%;
     text-align: left;
 }
 
-.tabla td {
+.global_table td {
     padding: 1em 0 1em 0;
 }
 
