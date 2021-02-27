@@ -1,8 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 import './index.css';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
+
+const store = createStore(
+	{}, //@o Reducers
+	{} //@o Initial state
+);
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
