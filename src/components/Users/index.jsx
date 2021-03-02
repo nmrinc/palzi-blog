@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getUsers } from '../../actions/userActions';
 import { SkeletonBodyText } from 'react-skeleton-content';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Table from './Table';
 import Fatal from '../General/Fatal';
 
@@ -26,11 +28,18 @@ class Users extends Component {
 				</tr>
 			);
 		} else {
-			return this.props.users.map((item) => (
+			return this.props.users.map((item, key) => (
 				<tr key={item.id}>
 					<td>{item.name}</td>
 					<td>{item.email}</td>
 					<td>{item.website}</td>
+					<td>
+						{
+							<Link to={`/posts/${key}`}>
+								<FontAwesomeIcon icon="eye" size="lg" />
+							</Link>
+						}
+					</td>
 				</tr>
 			));
 		}
