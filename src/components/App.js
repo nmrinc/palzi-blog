@@ -1,12 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
 import Menu from './Menu';
 import Users from './Users';
 import Posts from './Posts';
-
-library.add(faEye);
 
 const Tasks = () => <div>Tasks</div>;
 

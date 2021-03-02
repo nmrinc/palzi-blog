@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { getUsers } from '../../actions/userActions';
 import { SkeletonBodyText } from 'react-skeleton-content';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 import Table from './Table';
 import Fatal from '../General/Fatal';
 
@@ -36,7 +37,7 @@ class Users extends Component {
 					<td>
 						{
 							<Link to={`/posts/${key}`}>
-								<FontAwesomeIcon icon="eye" size="lg" />
+								<FontAwesomeIcon icon={faEye} size="lg" />
 							</Link>
 						}
 					</td>
