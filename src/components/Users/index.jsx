@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getUsers } from '../../actions/userActions';
 import { SkeletonBodyText } from 'react-skeleton-content';
+import Fatal from '../General/Fatal';
 
 class Users extends Component {
 	componentDidMount() {
@@ -38,7 +39,7 @@ class Users extends Component {
 		return (
 			<>
 				{this.props.errorMsg ? (
-					<h1>{this.props.errorMsg}</h1>
+					<Fatal errMsg={this.props.errorMsg} />
 				) : (
 					<table className="global_table">
 						<thead>
