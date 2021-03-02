@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getUsers } from '../../actions/userActions';
 import { SkeletonBodyText } from 'react-skeleton-content';
+import Table from './Table';
 import Fatal from '../General/Fatal';
 
 class Users extends Component {
@@ -41,16 +42,7 @@ class Users extends Component {
 				{this.props.errorMsg ? (
 					<Fatal errMsg={this.props.errorMsg} />
 				) : (
-					<table className="global_table">
-						<thead>
-							<tr>
-								<th>Name</th>
-								<th>Mail</th>
-								<th>URL</th>
-							</tr>
-						</thead>
-						<tbody>{this.assembleList()}</tbody>
-					</table>
+					<Table act={this.assembleList} />
 				)}
 			</>
 		);
