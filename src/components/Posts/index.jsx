@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getUsers } from '../../actions/userActions';
-import { getPosts } from '../../actions/postsActions';
+import { getPostsByUser } from '../../actions/postsActions';
 import Skeleton from 'react-loading-skeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFlushed } from '@fortawesome/free-solid-svg-icons';
@@ -13,11 +13,12 @@ const Posts = () => {
 	const dispatch = useDispatch();
 	const { key } = useParams();
 
+	/* console.clear();
 	console.log('=====Users===============================');
 	console.log(usersReducer);
 	console.log('=====Posts===============================');
 	console.log(postsReducer);
-	console.log('====================================');
+	console.log('===================================='); */
 
 	const center = {
 		display: 'flex',
@@ -33,10 +34,10 @@ const Posts = () => {
 	}, [dispatch, usersReducer.users.length]);
 
 	useEffect(() => {
-		if (!postsReducer.posts.length) {
-			dispatch(getPosts());
+		if (usersReducer.users.length >= 1) {
+			dispatch(getPostsByUser(key));
 		}
-	}, [dispatch, postsReducer.posts.length]);
+	}, [dispatch, key, postsReducer.posts.length, usersReducer.users.length]);
 
 	if (usersReducer.isLoading) {
 		return (
