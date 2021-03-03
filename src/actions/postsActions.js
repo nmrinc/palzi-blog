@@ -1,38 +1,30 @@
-import { GET_POSTS } from '../types/postsTypes';
+import { GET_POSTS_BY_USER } from '../types/postsTypes';
 import axios from 'axios';
 
-export const getPosts = () => async (dispatch) => {
+export const getPostsByUser = (key) => async (dispatch, getState) => {
+	const { users } = getState().usersReducer;
+	const { posts } = getState().postsReducer;
+	const user_id = users[key].id;
+
 	dispatch({
-		type: `${GET_POSTS}_PENDING`,
+		type: `${GET_POSTS_BY_USER}_PENDING`,
 	});
 
 	try {
 		const response = await axios.get(
-			'https://jsonplaceholder.typicode.com/posts'
+			`https://jsonplaceholder.typicode.com/posts?userId=${user_id}`
 		);
 
+		const updated_posts = [...posts, response.data];
+
 		dispatch({
-			type: `${GET_POSTS}_FULFILLED`,
-			payload: response.data,
+			type: `${GET_POSTS_BY_USER}_FULFILLED`,
+			payload: updated_posts,
 		});
-	} catch (error) {
+	} catch (e) {
 		dispatch({
-			type: `${GET_POSTS}_REJECTED`,
-			payload: error.message,
+			type: `${GET_POSTS_BY_USER}_REJECTED`,
+			payload: e.message,
 		});
 	}
-};
-
-export const getPostsByUser = (key) => async (dispatch, getState) => {
-	const { users } = getState().usersReducer;
-	const user_id = users[key].id;
-
-	const response = await axios.get(
-		`https://jsonplaceholder.typicode.com/posts?userId=${user_id}`
-	);
-
-	dispatch({
-		type: `${GET_POSTS}_FULFILLED`,
-		payload: response.data,
-	});
 };
