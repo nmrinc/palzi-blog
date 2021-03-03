@@ -13,12 +13,12 @@ const Posts = () => {
 	const dispatch = useDispatch();
 	const { key } = useParams();
 
-	/* console.clear();
+	console.clear();
 	console.log('=====Users===============================');
 	console.log(usersReducer);
 	console.log('=====Posts===============================');
 	console.log(postsReducer);
-	console.log('===================================='); */
+	console.log('====================================');
 
 	const center = {
 		display: 'flex',
@@ -37,7 +37,7 @@ const Posts = () => {
 		if (usersReducer.users.length >= 1) {
 			dispatch(getPostsByUser(key));
 		}
-	}, [dispatch, key, postsReducer.posts.length, usersReducer.users.length]);
+	}, [dispatch, key, usersReducer.users.length]);
 
 	if (usersReducer.isLoading) {
 		return (
