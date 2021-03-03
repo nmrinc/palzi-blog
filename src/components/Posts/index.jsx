@@ -25,6 +25,7 @@ const Posts = () => {
 		width: '100%',
 		alignItems: 'center',
 		justifyContent: 'center',
+		marginBottom: 0,
 	};
 
 	useEffect(() => {
@@ -34,10 +35,13 @@ const Posts = () => {
 	}, [dispatch, usersReducer.users.length]);
 
 	useEffect(() => {
-		if (usersReducer.users.length >= 1) {
+		if (
+			usersReducer.users.length >= 1 &&
+			!('posts_key' in usersReducer.users[key])
+		) {
 			dispatch(getPostsByUser(key));
 		}
-	}, [dispatch, key, usersReducer.users.length]);
+	}, [dispatch, key, usersReducer.users, usersReducer.users.length]);
 
 	if (usersReducer.isLoading) {
 		return (
@@ -52,7 +56,7 @@ const Posts = () => {
 		);
 	}
 
-	if (usersReducer.users.length && usersReducer.users[key] === undefined) {
+	if (usersReducer.users.errorMsg || usersReducer.users[key] === undefined) {
 		return (
 			<>
 				<h1 style={center}>
