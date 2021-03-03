@@ -22,3 +22,17 @@ export const getPosts = () => async (dispatch) => {
 		});
 	}
 };
+
+export const getPostsByUser = (key) => async (dispatch, getState) => {
+	const { users } = getState().usersReducer;
+	const user_id = users[key].id;
+
+	const response = await axios.get(
+		`https://jsonplaceholder.typicode.com/posts?userId=${user_id}`
+	);
+
+	dispatch({
+		type: `${GET_POSTS}_FULFILLED`,
+		payload: response.data,
+	});
+};
