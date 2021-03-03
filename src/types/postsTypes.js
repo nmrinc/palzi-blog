@@ -1,1 +1,1 @@
-export const GET_POSTS = 'GET_POSTS';
+export const GET_POSTS_BY_USER = 'GET_POSTS_BY_USER';

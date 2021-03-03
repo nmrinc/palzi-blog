@@ -10,7 +10,9 @@ import Fatal from '../General/Fatal';
 
 class Users extends Component {
 	componentDidMount() {
-		this.props.getUsers();
+		if (!this.props.users.length) {
+			this.props.getUsers();
+		}
 	}
 
 	assembleList = () => {
