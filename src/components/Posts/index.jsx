@@ -6,6 +6,7 @@ import { getPostsByUser } from '../../actions/postsActions';
 import Skeleton from 'react-loading-skeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFlushed } from '@fortawesome/free-solid-svg-icons';
+import Fatal from '../General/Fatal';
 
 const Posts = () => {
 	const usersReducer = useSelector((reducers) => reducers.usersReducer);
@@ -43,6 +44,39 @@ const Posts = () => {
 		}
 	}, [dispatch, key, usersReducer.users, usersReducer.users.length]);
 
+	const renderPosts = () => {
+		if (!usersReducer.users.length) return;
+		if (usersReducer.errorMsg) return;
+
+		if (postsReducer.isLoading) {
+			return (
+				<>
+					<hr />
+					<h2>
+						<Skeleton width={'80%'} />
+					</h2>
+					<p>
+						<Skeleton count={2} />
+					</p>
+				</>
+			);
+		}
+		if (postsReducer.errorMsg) {
+			return <Fatal errMsg={postsReducer.errorMsg} />;
+		}
+		if (!postsReducer.posts.length) return;
+
+		const { posts_key } = usersReducer.users[key];
+
+		return postsReducer.posts[posts_key].map((post) => (
+			<div key={post.id}>
+				<hr />
+				<h2>{post.title}</h2>
+				<p>{post.body}</p>
+			</div>
+		));
+	};
+
 	if (usersReducer.isLoading) {
 		return (
 			<>
@@ -74,10 +108,10 @@ const Posts = () => {
 
 	return (
 		<>
-			<h1>Posts from</h1>
-			<div>
-				{usersReducer.users.length && <h2>{usersReducer.users[key].name}</h2>}
-			</div>
+			{usersReducer.users.length && (
+				<h1>Posts from {usersReducer.users[key].name}</h1>
+			)}
+			{renderPosts()}
 		</>
 	);
 };
