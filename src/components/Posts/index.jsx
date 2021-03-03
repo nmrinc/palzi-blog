@@ -2,36 +2,77 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getUsers } from '../../actions/userActions';
-import { SkeletonBodyText } from 'react-skeleton-content';
+import { getPosts } from '../../actions/postsActions';
+import Skeleton from 'react-loading-skeleton';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFlushed } from '@fortawesome/free-solid-svg-icons';
 
 const Posts = () => {
-	const reducer = useSelector((reducers) => reducers.usersReducer);
+	const usersReducer = useSelector((reducers) => reducers.usersReducer);
+	const postsReducer = useSelector((reducers) => reducers.postsReducer);
 	const dispatch = useDispatch();
 	const { key } = useParams();
 
+	console.log('=====Users===============================');
+	console.log(usersReducer);
+	console.log('=====Posts===============================');
+	console.log(postsReducer);
+	console.log('====================================');
+
+	const center = {
+		display: 'flex',
+		width: '100%',
+		alignItems: 'center',
+		justifyContent: 'center',
+	};
+
 	useEffect(() => {
-		if (!reducer.users.length) {
+		if (!usersReducer.users.length) {
 			dispatch(getUsers());
 		}
-	}, [dispatch, reducer.users.length]);
+	}, [dispatch, usersReducer.users.length]);
 
-	if (reducer.isLoading) {
+	useEffect(() => {
+		if (!postsReducer.posts.length) {
+			dispatch(getPosts());
+		}
+	}, [dispatch, postsReducer.posts.length]);
+
+	if (usersReducer.isLoading) {
 		return (
 			<>
-				<h1>Posts from</h1>
-				<SkeletonBodyText />
+				<h1>
+					<Skeleton width={'50%'} />
+				</h1>
+				<h2>
+					<Skeleton />
+				</h2>
 			</>
 		);
 	}
 
-	if (reducer.errorMsg) {
-		return <h1>Ups! Can't find this guy</h1>;
+	if (usersReducer.users.length && usersReducer.users[key] === undefined) {
+		return (
+			<>
+				<h1 style={center}>
+					<FontAwesomeIcon
+						icon={faFlushed}
+						size="3x"
+						style={{ marginRight: '.2em' }}
+					/>
+					Fuck! Can't find this guy
+				</h1>
+				<small style={center}>{usersReducer.errorMsg}</small>
+			</>
+		);
 	}
 
 	return (
 		<>
 			<h1>Posts from</h1>
-			<div>{reducer.users.length && <h2>{reducer.users[key].name}</h2>}</div>
+			<div>
+				{usersReducer.users.length && <h2>{usersReducer.users[key].name}</h2>}
+			</div>
 		</>
 	);
 };

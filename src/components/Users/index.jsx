@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getUsers } from '../../actions/userActions';
-import { SkeletonBodyText } from 'react-skeleton-content';
+import Skeleton from 'react-loading-skeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import Table from './Table';
@@ -18,13 +18,13 @@ class Users extends Component {
 			return (
 				<tr>
 					<td>
-						<SkeletonBodyText />
+						<Skeleton count={5} />
 					</td>
 					<td>
-						<SkeletonBodyText />
+						<Skeleton count={5} />
 					</td>
 					<td>
-						<SkeletonBodyText />
+						<Skeleton count={5} />
 					</td>
 				</tr>
 			);
