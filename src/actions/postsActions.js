@@ -26,7 +26,6 @@ export const getPostsByUser = (key) => async (dispatch, getState) => {
 			type: `${GET_USERS}_FULFILLED`,
 			payload: updated_users,
 		});
-
 		dispatch({
 			type: `${GET_POSTS_BY_USER}_FULFILLED`,
 			payload: updated_posts,
