@@ -14,7 +14,6 @@ const Posts = () => {
 	const dispatch = useDispatch();
 	const { key } = useParams();
 
-	console.clear();
 	console.log('=====Users===============================');
 	console.log(usersReducer);
 	console.log('=====Posts===============================');
@@ -48,7 +47,7 @@ const Posts = () => {
 		if (!usersReducer.users.length) return;
 		if (usersReducer.errorMsg) return;
 
-		if (postsReducer.isLoading) {
+		if (!postsReducer.posts.length || postsReducer.isLoading) {
 			return (
 				<>
 					<hr />
@@ -66,15 +65,17 @@ const Posts = () => {
 		}
 		if (!postsReducer.posts.length) return;
 
-		const { posts_key } = usersReducer.users[key];
+		if ('posts_key' in usersReducer.users[key]) {
+			const { posts_key } = usersReducer.users[key];
 
-		return postsReducer.posts[posts_key].map((post) => (
-			<div key={post.id}>
-				<hr />
-				<h2>{post.title}</h2>
-				<p>{post.body}</p>
-			</div>
-		));
+			return postsReducer.posts[posts_key].map((post) => (
+				<div key={post.id} onClick={() => alert(post.id)}>
+					<hr />
+					<h2>{post.title}</h2>
+					<p>{post.body}</p>
+				</div>
+			));
+		}
 	};
 
 	if (usersReducer.isLoading) {
