@@ -2,11 +2,16 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getUsers } from '../../actions/userActions';
-import { getPostsByUser, openClose } from '../../actions/postsActions';
+import {
+	getPostsByUser,
+	openClose,
+	getComments,
+} from '../../actions/postsActions';
 import Skeleton from 'react-loading-skeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFlushed } from '@fortawesome/free-solid-svg-icons';
 import Fatal from '../General/Fatal';
+import Comments from './Comments';
 
 const Posts = () => {
 	const usersReducer = useSelector((reducers) => reducers.usersReducer);
@@ -77,15 +82,35 @@ const Posts = () => {
 			<div
 				key={post.id}
 				onClick={() =>
-					dispatch(openClose({ posts_key: args.posts_key, com_key }))
+					showComments({
+						posts_key: args.posts_key,
+						com_key,
+						posts: post.comments,
+					})
 				}
 			>
 				<hr />
 				<h2>{post.title}</h2>
 				<p>{post.body}</p>
-				{post.open ? 'Open' : 'Closed'}
+				{post.open ? <Comments /> : ''}
 			</div>
 		));
+
+	const showComments = (args) => {
+		dispatch(
+			openClose({
+				posts_key: args.posts_key,
+				com_key: args.com_key,
+			})
+		);
+
+		dispatch(
+			getComments({
+				posts_key: args.posts_key,
+				com_key: args.com_key,
+			})
+		);
+	};
 
 	if (usersReducer.isLoading) {
 		return (

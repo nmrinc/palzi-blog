@@ -70,3 +70,7 @@ export const openClose = (args) => (dispatch, getState) => {
 		payload: updated_posts,
 	});
 };
+
+export const getComments = (args) => (dispatch, getState) => {
+	//const { posts_key, com_key } = args;
+};
