@@ -18,7 +18,13 @@ export const getPostsByUser = (key) => async (dispatch, getState) => {
 			`https://jsonplaceholder.typicode.com/posts?userId=${user_id}`
 		);
 
-		const updated_posts = [...posts, response.data];
+		const newOnes = response.data.map((post) => ({
+			...post,
+			comments: [],
+			open: false,
+		}));
+
+		const updated_posts = [...posts, newOnes];
 		dispatch({
 			type: `${GET_POSTS_BY_USER}_FULFILLED`,
 			payload: updated_posts,
@@ -42,4 +48,8 @@ export const getPostsByUser = (key) => async (dispatch, getState) => {
 		});
 		console.log('GET_POSTS_BY_USER_REJECTED');
 	}
+};
+
+export const openClose = (args) => (dispatch) => {
+	alert(`${args.post_key} ${args.com_key}`);
 };
