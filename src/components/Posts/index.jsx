@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getUsers } from '../../actions/userActions';
-import { getPostsByUser } from '../../actions/postsActions';
+import { getPostsByUser, openClose } from '../../actions/postsActions';
 import Skeleton from 'react-loading-skeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFlushed } from '@fortawesome/free-solid-svg-icons';
@@ -52,6 +52,7 @@ const Posts = () => {
 				<>
 					<hr />
 					<h2>
+						¡
 						<Skeleton width={'80%'} />
 					</h2>
 					<p>
@@ -68,15 +69,21 @@ const Posts = () => {
 		if ('posts_key' in usersReducer.users[key]) {
 			const { posts_key } = usersReducer.users[key];
 
-			return postsReducer.posts[posts_key].map((post) => (
-				<div key={post.id} onClick={() => alert(post.id)}>
-					<hr />
-					<h2>{post.title}</h2>
-					<p>{post.body}</p>
-				</div>
-			));
+			return showInfo({ posts_key });
 		}
 	};
+
+	const showInfo = (args) =>
+		postsReducer.posts[args.posts_key].map((post, com_key) => (
+			<div
+				key={post.id}
+				onClick={openClose({ post_key: args.posts_key, com_key })}
+			>
+				<hr />
+				<h2>{post.title}</h2>
+				<p>{post.body}</p>
+			</div>
+		));
 
 	if (usersReducer.isLoading) {
 		return (
