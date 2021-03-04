@@ -50,6 +50,23 @@ export const getPostsByUser = (key) => async (dispatch, getState) => {
 	}
 };
 
-export const openClose = (args) => (dispatch) => {
-	alert(`${args.post_key} ${args.com_key}`);
+export const openClose = (args) => (dispatch, getState) => {
+	const { posts_key, com_key } = args;
+
+	const { posts } = getState().postsReducer;
+	const selected = posts[posts_key][com_key];
+
+	const updated = {
+		...selected,
+		open: !selected.open,
+	};
+
+	const updated_posts = [...posts];
+	updated_posts[posts_key] = [...posts[posts_key]];
+	updated_posts[posts_key][com_key] = updated;
+
+	dispatch({
+		type: `${GET_POSTS_BY_USER}_FULFILLED`,
+		payload: updated_posts,
+	});
 };
