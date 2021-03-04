@@ -85,7 +85,7 @@ const Posts = () => {
 					showComments({
 						posts_key: args.posts_key,
 						com_key,
-						posts: post.comments,
+						comments: post.comments,
 					})
 				}
 			>
@@ -97,19 +97,23 @@ const Posts = () => {
 		));
 
 	const showComments = (args) => {
+		const { posts_key, com_key, comments } = args;
+
 		dispatch(
 			openClose({
-				posts_key: args.posts_key,
-				com_key: args.com_key,
+				posts_key: posts_key,
+				com_key: com_key,
 			})
 		);
 
-		dispatch(
-			getComments({
-				posts_key: args.posts_key,
-				com_key: args.com_key,
-			})
-		);
+		if (!comments.length) {
+			dispatch(
+				getComments({
+					posts_key: posts_key,
+					com_key: com_key,
+				})
+			);
+		}
 	};
 
 	if (usersReducer.isLoading) {
