@@ -52,7 +52,6 @@ const Posts = () => {
 				<>
 					<hr />
 					<h2>
-						¡
 						<Skeleton width={'80%'} />
 					</h2>
 					<p>
@@ -77,11 +76,14 @@ const Posts = () => {
 		postsReducer.posts[args.posts_key].map((post, com_key) => (
 			<div
 				key={post.id}
-				onClick={openClose({ post_key: args.posts_key, com_key })}
+				onClick={() =>
+					dispatch(openClose({ posts_key: args.posts_key, com_key }))
+				}
 			>
 				<hr />
 				<h2>{post.title}</h2>
 				<p>{post.body}</p>
+				{post.open ? 'Open' : 'Closed'}
 			</div>
 		));
 
