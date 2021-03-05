@@ -33,6 +33,10 @@ const Posts = () => {
 		marginBottom: 0,
 	};
 
+	const handy = {
+		cursor: 'pointer',
+	};
+
 	useEffect(() => {
 		if (!usersReducer.users.length) {
 			dispatch(getUsers());
@@ -88,6 +92,7 @@ const Posts = () => {
 						comments: post.comments,
 					})
 				}
+				style={handy}
 			>
 				<hr />
 				<h2>{post.title}</h2>

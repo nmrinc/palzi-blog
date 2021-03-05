@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 	errorMsg: null,
 };
 
-const usersReducer = (state = INITIAL_STATE, action) => {
+const usersReducer = (state = INITIAL_STATE, action = {}) => {
 	switch (action.type) {
 		case `${GET_USERS}_PENDING`:
 			return { ...state, isLoading: true };
