@@ -2,29 +2,55 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTodos } from '../../actions/todosActions';
-/* import { useParams } from 'react-router-dom';
-import Skeleton from 'react-loading-skeleton';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFlushed } from '@fortawesome/free-solid-svg-icons';
 import Fatal from '../General/Fatal';
-import Comments from './Comments'; */
+import Skeleton from 'react-loading-skeleton';
 
 const Todos = () => {
 	const todosReducer = useSelector((reducers) => reducers.todosReducer);
 	const dispatch = useDispatch();
-	// const { key } = useParams();
 
 	useEffect(() => {
-		if (!todosReducer.todos.length) {
+		if (!Object.keys(todosReducer.todos).length) {
 			dispatch(getTodos());
 		}
-	}, [dispatch, todosReducer.todos.length]);
+	}, [dispatch, todosReducer.todos, todosReducer.todos.length]);
 
-	console.log('=====To-dos===============================');
-	console.log(todosReducer);
-	console.log('====================================');
+	const showContent = () => {
+		const { todos, isLoading, error } = todosReducer;
 
-	return <h1>Todos</h1>;
+		if (error) return <Fatal errMsg={error} />;
+
+		return Object.keys(todos).map((user_id) => (
+			<div key={user_id}>
+				<h2>User {user_id}</h2>
+				<div className="todos_container">
+					{isLoading ? (
+						<>
+							<Skeleton count={5} />
+						</>
+					) : (
+						renderTodos(user_id)
+					)}
+				</div>
+			</div>
+		));
+	};
+
+	const renderTodos = (user_id) => {
+		const { todos } = todosReducer;
+		const by_user = {
+			...todos[user_id],
+		};
+
+		return Object.keys(by_user).map((todo_id) => (
+			<div key={todo_id}>
+				<input type="checkbox" defaultChecked={by_user[todo_id].completed} />
+				{by_user[todo_id].title}
+			</div>
+		));
+	};
+
+	return <>{showContent()}</>;
 };
 
 export default Todos;
