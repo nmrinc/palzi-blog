@@ -1,13 +1,13 @@
-import { GET_POSTS_BY_USER } from '../types/postsTypes';
+import { UPDATE_POSTS, GET_COMMENTS } from '../types/postsTypes';
 import { GET_USERS } from '../types/usersTypes';
 import axios from 'axios';
 
 export const getPostsByUser = (key) => async (dispatch, getState) => {
 	dispatch({
-		type: `${GET_POSTS_BY_USER}_PENDING`,
+		type: `${UPDATE_POSTS}_PENDING`,
 	});
 
-	console.log('GET_POSTS_BY_USER_PENDING');
+	console.log('UPDATE_POSTS_PENDING');
 
 	let { users } = getState().usersReducer;
 	const { posts } = getState().postsReducer;
@@ -26,10 +26,10 @@ export const getPostsByUser = (key) => async (dispatch, getState) => {
 
 		const updated_posts = [...posts, newOnes];
 		dispatch({
-			type: `${GET_POSTS_BY_USER}_FULFILLED`,
+			type: `${UPDATE_POSTS}_FULFILLED`,
 			payload: updated_posts,
 		});
-		console.log('GET_POSTS_BY_USER_FULFILLED');
+		console.log('UPDATE_POSTS_FULFILLED');
 
 		const posts_key = updated_posts.length - 1;
 		const updated_users = [...users];
@@ -43,10 +43,10 @@ export const getPostsByUser = (key) => async (dispatch, getState) => {
 		console.log('GET_USERS_FULFILLED FROM postActions');
 	} catch (e) {
 		dispatch({
-			type: `${GET_POSTS_BY_USER}_REJECTED`,
+			type: `${UPDATE_POSTS}_REJECTED`,
 			payload: e.message,
 		});
-		console.log('GET_POSTS_BY_USER_REJECTED');
+		console.log('UPDATE_POSTS_REJECTED');
 	}
 };
 
@@ -66,32 +66,43 @@ export const openClose = (args) => (dispatch, getState) => {
 	updated_posts[posts_key][com_key] = updated;
 
 	dispatch({
-		type: `${GET_POSTS_BY_USER}_FULFILLED`,
+		type: `${UPDATE_POSTS}_FULFILLED`,
 		payload: updated_posts,
 	});
 };
 
 export const getComments = (args) => async (dispatch, getState) => {
+	dispatch({
+		type: `${GET_COMMENTS}_PENDING`,
+	});
+
 	const { posts_key, com_key } = args;
 
 	const { posts } = getState().postsReducer;
 	const selected = posts[posts_key][com_key];
 
-	const response = await axios.get(
-		`https://jsonplaceholder.typicode.com/comments?postId=${selected.id}`
-	);
+	try {
+		const response = await axios.get(
+			`https://jsonplaceholder.typicode.com/comments?postId=${selected.id}`
+		);
 
-	const updated = {
-		...selected,
-		comments: response.data,
-	};
+		const updated = {
+			...selected,
+			comments: response.data,
+		};
 
-	const updated_posts = [...posts];
-	updated_posts[posts_key] = [...posts[posts_key]];
-	updated_posts[posts_key][com_key] = updated;
+		const updated_posts = [...posts];
+		updated_posts[posts_key] = [...posts[posts_key]];
+		updated_posts[posts_key][com_key] = updated;
 
-	dispatch({
-		type: `${GET_POSTS_BY_USER}_FULFILLED`,
-		payload: updated_posts,
-	});
+		dispatch({
+			type: `${UPDATE_POSTS}_FULFILLED`,
+			payload: updated_posts,
+		});
+	} catch (e) {
+		dispatch({
+			type: `${GET_COMMENTS}_REJECTED`,
+			payload: e.message,
+		});
+	}
 };
