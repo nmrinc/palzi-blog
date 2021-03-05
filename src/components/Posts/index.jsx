@@ -19,11 +19,11 @@ const Posts = () => {
 	const dispatch = useDispatch();
 	const { key } = useParams();
 
-	console.log('=====Users===============================');
+	/* console.log('=====Users===============================');
 	console.log(usersReducer);
 	console.log('=====Posts===============================');
 	console.log(postsReducer);
-	console.log('====================================');
+	console.log('===================================='); */
 
 	const center = {
 		display: 'flex',
