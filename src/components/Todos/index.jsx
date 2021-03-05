@@ -1,6 +1,6 @@
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getTodos } from '../../actions/todosActions';
 import Fatal from '../General/Fatal';
 import Skeleton from 'react-loading-skeleton';
@@ -50,7 +50,12 @@ const Todos = () => {
 		));
 	};
 
-	return <>{showContent()}</>;
+	return (
+		<>
+			<Link to="/todos/save_todo"><button>Add new to-do</button></Link>
+			{showContent()}
+		</>
+	);
 };
 
 export default Todos;
