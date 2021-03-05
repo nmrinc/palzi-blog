@@ -1,1 +1,2 @@
-export const GET_POSTS_BY_USER = 'GET_POSTS_BY_USER';
+export const UPDATE_POSTS = 'UPDATE_POSTS';
+export const GET_COMMENTS = 'GET_COMMENTS';

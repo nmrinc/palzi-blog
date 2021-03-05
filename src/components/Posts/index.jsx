@@ -92,7 +92,7 @@ const Posts = () => {
 				<hr />
 				<h2>{post.title}</h2>
 				<p>{post.body}</p>
-				{post.open ? <Comments /> : ''}
+				{post.open ? <Comments comments={post.comments} /> : ''}
 			</div>
 		));
 
