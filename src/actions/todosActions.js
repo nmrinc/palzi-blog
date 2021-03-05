@@ -12,9 +12,22 @@ export const getTodos = () => async (dispatch) => {
 			'https://jsonplaceholder.typicode.com/todos'
 		);
 
+		const todos = {};
+		//@a Iterate through the response array
+		response.data.map(
+			(item) =>
+				//@a Create an object with the userId property inside the todos object
+				(todos[item.userId] = {
+					//@a Add everything that the object has to create immutability
+					...todos[item.userId],
+					//@a Add a new object with the to-do id property and add everything that the object has in the response
+					[item.id]: { ...item },
+				})
+		);
+
 		dispatch({
 			type: `${GET_TODOS}_FULFILLED`,
-			payload: response.data,
+			payload: todos,
 		});
 		console.log('GET_TODOS_FULFILLED');
 	} catch (error) {
