@@ -25,3 +25,7 @@ body {
     color: #fff;
     padding: 0 2em 0 0;
 }
+
+li {
+    margin: 1em 0 1em 0;
+}

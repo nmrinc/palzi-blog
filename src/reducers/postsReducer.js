@@ -8,7 +8,10 @@ const INITIAL_STATE = {
 	com_error: null,
 };
 
-const postsReducer = (state = INITIAL_STATE, action) => {
+//! Default parameters should be last.sonarlint(javascript:S1788)
+//@o Warning appears on props passed to the reducer.
+//@a To fix it, add a default empty parameter to action.
+const postsReducer = (state = INITIAL_STATE, action = {}) => {
 	switch (action.type) {
 		case `${UPDATE_POSTS}_PENDING`:
 			return { ...state, isLoading: true };
@@ -21,6 +24,9 @@ const postsReducer = (state = INITIAL_STATE, action) => {
 
 		case `${GET_COMMENTS}_PENDING`:
 			return { ...state, com_isLoading: true };
+
+		case `${GET_COMMENTS}_FULFILLED`:
+			return { ...state, com_isLoading: false, posts: action.payload };
 
 		case `${GET_COMMENTS}_REJECTED`:
 			return { ...state, com_isLoading: false, com_error: action.payload };

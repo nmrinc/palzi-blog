@@ -9,7 +9,7 @@ const Comments = (props) => {
 	if (postsReducer.com_error) return <Fatal errMsg={postsReducer.com_error} />;
 
 	const renderComments = () => {
-		if (postsReducer.com_isLoading) {
+		if (postsReducer.com_isLoading && !props.comments.length) {
 			return (
 				<li>
 					<b>
@@ -33,6 +33,7 @@ const Comments = (props) => {
 			</li>
 		));
 	};
+
 	return <ul>{renderComments()}</ul>;
 };
 

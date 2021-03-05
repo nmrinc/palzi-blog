@@ -96,7 +96,7 @@ export const getComments = (args) => async (dispatch, getState) => {
 		updated_posts[posts_key][com_key] = updated;
 
 		dispatch({
-			type: `${UPDATE_POSTS}_FULFILLED`,
+			type: `${GET_COMMENTS}_FULFILLED`,
 			payload: updated_posts,
 		});
 	} catch (e) {
