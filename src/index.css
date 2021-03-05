@@ -29,3 +29,29 @@ body {
 li {
     margin: 1em 0 1em 0;
 }
+
+.todos_container {
+    font-size: 1em;
+    margin: 0 0 5em 1em;
+    padding-top: 1em;
+}
+
+/* **************************************************************** */
+.container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.col {
+    padding: 1em;
+}
+
+.col h1,
+h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* **************************************************************** */
