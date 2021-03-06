@@ -40,9 +40,6 @@ export const getTodos = () => async (dispatch) => {
 };
 
 export const update_UserId = (payload) => (dispatch) => {
-	console.log('======update_UserId==============================');
-	console.log(payload);
-	console.log('====================================');
 	dispatch({
 		type: `${UPDATE_USER_ID}_FULFILLED`,
 		payload,
@@ -50,9 +47,6 @@ export const update_UserId = (payload) => (dispatch) => {
 };
 
 export const update_title = (payload) => (dispatch) => {
-	console.log('======update_title==============================');
-	console.log(payload);
-	console.log('====================================');
 	dispatch({
 		type: `${UPDATE_TITLE}_FULFILLED`,
 		payload,

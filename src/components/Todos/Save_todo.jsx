@@ -82,6 +82,7 @@ const Save_todo = () => {
 
 	return (
 		<div>
+			{todosReducer.redirect && <Redirect to="/todos" />}
 			<h1>Save new To-do</h1>
 			User id:&nbsp;
 			<input

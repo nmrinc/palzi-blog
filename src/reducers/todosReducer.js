@@ -6,6 +6,7 @@ const INITIAL_STATE = {
 	error: null,
 	user_id: '',
 	title: '',
+	redirect: false,
 };
 
 const todosReducer = (state = INITIAL_STATE, action = {}) => {
@@ -14,7 +15,7 @@ const todosReducer = (state = INITIAL_STATE, action = {}) => {
 			return { ...state, isLoading: true };
 
 		case `${GET_TODOS}_FULFILLED`:
-			return { ...state, isLoading: false, todos: action.payload };
+			return { ...state, isLoading: false, todos: action.payload, redirect: false };
 
 		case `${GET_TODOS}_REJECTED`:
 			return { ...state, isLoading: false, error: action.payload };
@@ -26,7 +27,7 @@ const todosReducer = (state = INITIAL_STATE, action = {}) => {
 			return { ...state, title: action.payload };
 
 		case `${ADD_TODO}_FULFILLED`:
-			return { ...state, isLoading: false, todos: {} }
+			return { ...state, isLoading: false, todos: {}, redirect: true, user_id: '', title: '' }
 
 		default:
 			return state;
