@@ -1,4 +1,4 @@
-import { GET_TODOS, UPDATE_USER_ID, UPDATE_TITLE } from '../types/todosTypes';
+import { GET_TODOS, UPDATE_USER_ID, UPDATE_TITLE, ADD_TODO } from '../types/todosTypes';
 import axios from 'axios';
 
 export const getTodos = () => async (dispatch) => {
@@ -58,3 +58,21 @@ export const update_title = (payload) => (dispatch) => {
 		payload,
 	});
 };
+
+export const add_todo = (payload) => async (dispatch) => {
+	dispatch({ type: `${GET_TODOS}_PENDING` });
+
+	try {
+		const response = await axios.post('https://jsonplaceholder.typicode.com/todos', payload);
+
+		console.log(response.data);
+		dispatch({ type: `${ADD_TODO}_FULFILLED` });
+	} catch (e) {
+		console.log(e.message);
+		dispatch({
+			type: `${GET_TODOS}_REJECTED`,
+			payload: `Shit can't be posted 'cause:
+			${e.message}`,
+		})
+	}
+}
