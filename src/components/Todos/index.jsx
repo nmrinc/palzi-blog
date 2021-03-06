@@ -52,7 +52,9 @@ const Todos = () => {
 
 	return (
 		<>
-			<Link to="/todos/save_todo"><button>Add new to-do</button></Link>
+			<Link to="/todos/save_todo">
+				<button>Add new to-do</button>
+			</Link>
 			{showContent()}
 		</>
 	);
