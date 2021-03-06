@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import {
 	update_UserId,
 	update_title,
 	add_todo,
 } from '../../actions/todosActions';
 import useDebounceValue from '../../hooks/useDebounceValue';
+import Fatal from '../General/Fatal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const Save_todo = () => {
 	const todosReducer = useSelector((reducers) => reducers.todosReducer);
@@ -49,6 +53,27 @@ const Save_todo = () => {
 		dispatch(add_todo(new_todo));
 	};
 
+	const validate = () => {
+		const { user_id, title, isLoading } = todosReducer;
+		if (isLoading) return true;
+		if (!user_id || !title) return true;
+
+		return false;
+	};
+
+	const actionInfo = () => {
+		const { isLoading, error } = todosReducer;
+
+		if (isLoading)
+			return (
+				<>
+					&nbsp;
+					<FontAwesomeIcon icon={faSpinner} spin />
+				</>
+			);
+		if (error) return <Fatal errMsg={error} />;
+	};
+
 	/* console.log('=====todosReducer===============================');
 	console.log(todosReducer);
 	console.log('=====debouncedUserId===============================');
@@ -74,7 +99,10 @@ const Save_todo = () => {
 			/>
 			<br />
 			<br />
-			<button onClick={save}>Save</button>
+			<button onClick={save} disabled={validate()}>
+				Save
+			</button>
+			{actionInfo()}
 		</div>
 	);
 };
