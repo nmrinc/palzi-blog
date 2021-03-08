@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useParams } from 'react-router-dom';
 import {
 	update_UserId,
 	update_title,
 	add_todo,
+	edit_todo,
+	getTodos,
 } from '../../actions/todosActions';
 import useDebounceValue from '../../hooks/useDebounceValue';
 import Fatal from '../General/Fatal';
@@ -14,11 +16,35 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 const Save_todo = () => {
 	const todosReducer = useSelector((reducers) => reducers.todosReducer);
 	const dispatch = useDispatch();
-	const [userId, setUserId] = useState(todosReducer.user_id);
+	const { userId, todoId } = useParams();
+	const [stUserId, setUserId] = useState(todosReducer.user_id);
 	const [stTitle, setStTitle] = useState(todosReducer.title);
 
-	const debouncedUserId = useDebounceValue(userId, 500);
+	const debouncedUserId = useDebounceValue(stUserId, 500);
 	const debouncedTitle = useDebounceValue(stTitle, 500);
+
+	useEffect(() => {
+		let didCancel = false;
+
+		if (!didCancel) {
+			if (!Object.keys(todosReducer.todos).length) {
+				dispatch(getTodos());
+			}
+
+			if (userId && todoId && Object.keys(todosReducer.todos).length) {
+				const todo = todosReducer.todos[userId][todoId];
+				dispatch(update_UserId(todo.userId));
+				dispatch(update_title(todo.title));
+				setUserId(todo.userId);
+				setStTitle(todo.title);
+			}
+		}
+
+		return () => {
+			didCancel = true;
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [todosReducer.todos]);
 
 	useEffect(() => {
 		let didCancel = false;
@@ -43,14 +69,25 @@ const Save_todo = () => {
 	}, [debouncedTitle]);
 
 	const save = () => {
-		const { user_id, title } = todosReducer;
+		const { user_id, title, todos } = todosReducer;
 		const new_todo = {
-			user_id: user_id,
+			userId: user_id,
 			title: title,
 			completed: false,
 		};
 
-		dispatch(add_todo(new_todo));
+		if (userId && todoId) {
+			const todo = todos[userId][todoId];
+			const edited_todo = {
+				...new_todo,
+				completed: todo.completed,
+				id: todo.id,
+			};
+
+			dispatch(edit_todo(edited_todo));
+		} else {
+			dispatch(add_todo(new_todo));
+		}
 	};
 
 	const validate = () => {
@@ -87,7 +124,7 @@ const Save_todo = () => {
 			User id:&nbsp;
 			<input
 				type="number"
-				value={userId}
+				value={stUserId}
 				onChange={(e) => setUserId(e.target.value)}
 			/>
 			<br />

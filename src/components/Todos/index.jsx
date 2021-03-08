@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { getTodos } from '../../actions/todosActions';
 import Fatal from '../General/Fatal';
 import Skeleton from 'react-loading-skeleton';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencilAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const Todos = () => {
 	const todosReducer = useSelector((reducers) => reducers.todosReducer);
@@ -13,7 +15,7 @@ const Todos = () => {
 		if (!Object.keys(todosReducer.todos).length) {
 			dispatch(getTodos());
 		}
-	}, [dispatch, todosReducer.todos, todosReducer.todos.length]);
+	}, [dispatch, todosReducer.todos]);
 
 	const showContent = () => {
 		const { todos, isLoading, error } = todosReducer;
@@ -46,6 +48,16 @@ const Todos = () => {
 			<div key={todo_id}>
 				<input type="checkbox" defaultChecked={by_user[todo_id].completed} />
 				{by_user[todo_id].title}
+				<Link to={`/todos/save_todo/${user_id}/${todo_id}`}>
+					<button className="ml-1" alt="Edit">
+						<FontAwesomeIcon icon={faPencilAlt} />
+					</button>
+				</Link>
+				<Link>
+					<button className="ml-1" alt="Delete">
+						<FontAwesomeIcon icon={faTrash} />
+					</button>
+				</Link>
 			</div>
 		));
 	};
