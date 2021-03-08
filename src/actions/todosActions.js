@@ -1,4 +1,4 @@
-import { GET_TODOS, UPDATE_USER_ID, UPDATE_TITLE, ADD_TODO } from '../types/todosTypes';
+import { GET_TODOS, UPDATE_USER_ID, UPDATE_TITLE, ADD_TODO, EDIT_TODO } from '../types/todosTypes';
 import axios from 'axios';
 
 export const getTodos = () => async (dispatch) => {
@@ -40,16 +40,18 @@ export const getTodos = () => async (dispatch) => {
 };
 
 export const update_UserId = (payload) => (dispatch) => {
+	console.log('update_UserId');
 	dispatch({
 		type: `${UPDATE_USER_ID}_FULFILLED`,
-		payload,
+		payload: payload,
 	});
 };
 
 export const update_title = (payload) => (dispatch) => {
+	console.log('update_title');
 	dispatch({
 		type: `${UPDATE_TITLE}_FULFILLED`,
-		payload,
+		payload: payload,
 	});
 };
 
@@ -66,6 +68,28 @@ export const add_todo = (payload) => async (dispatch) => {
 		dispatch({
 			type: `${GET_TODOS}_REJECTED`,
 			payload: `Shit can't be posted 'cause:
+			${e.message}`,
+		})
+	}
+}
+
+export const edit_todo = (payload) => async (dispatch) => {
+	dispatch({ type: `${GET_TODOS}_PENDING` });
+
+	console.log('====edit_todo================================');
+	console.log(payload);
+	console.log('====================================');
+
+	try {
+		const response = await axios.post('https://jsonplaceholder.typicode.com/todos', payload);
+
+		console.log(response.data);
+		dispatch({ type: `${EDIT_TODO}_FULFILLED` });
+	} catch (e) {
+		console.log(e.message);
+		dispatch({
+			type: `${GET_TODOS}_REJECTED`,
+			payload: `Shit can't be edited 'cause:
 			${e.message}`,
 		})
 	}

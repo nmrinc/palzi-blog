@@ -13,6 +13,7 @@ const App = () => (
 			<Route exact path="/" component={Users} />
 			<Route exact path="/todos" component={Todos} />
 			<Route exact path="/todos/save_todo" component={Save_todo} />
+			<Route exact path="/todos/save_todo/:userId/:todoId" component={Save_todo} />
 			<Route exact path="/posts/:key" component={Posts} />
 		</div>
 	</BrowserRouter>
