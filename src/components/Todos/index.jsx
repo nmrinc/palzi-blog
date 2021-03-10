@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getTodos } from '../../actions/todosActions';
+import { getTodos, update_check } from '../../actions/todosActions';
 import Fatal from '../General/Fatal';
 import Skeleton from 'react-loading-skeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -46,7 +46,13 @@ const Todos = () => {
 
 		return Object.keys(by_user).map((todo_id) => (
 			<div key={todo_id}>
-				<input type="checkbox" defaultChecked={by_user[todo_id].completed} />
+				<input
+					type="checkbox"
+					defaultChecked={by_user[todo_id].completed}
+					onChange={() =>
+						dispatch(update_check({ user_id: user_id, todo_id: todo_id }))
+					}
+				/>
 				{by_user[todo_id].title}
 				<Link to={`/todos/save_todo/${user_id}/${todo_id}`}>
 					<button className="ml-1" alt="Edit">

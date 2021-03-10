@@ -1,4 +1,4 @@
-import { GET_TODOS, UPDATE_USER_ID, UPDATE_TITLE, ADD_TODO, EDIT_TODO } from '../types/todosTypes';
+import { GET_TODOS, UPDATE_USER_ID, UPDATE_TITLE, ADD_TODO, EDIT_TODO, UPDATE } from '../types/todosTypes';
 
 const INITIAL_STATE = {
 	isLoading: false,
@@ -31,6 +31,9 @@ const todosReducer = (state = INITIAL_STATE, action = {}) => {
 
 		case `${EDIT_TODO}_FULFILLED`:
 			return { ...state, isLoading: false, todos: {}, redirect: true, user_id: '', title: '' }
+
+		case `${UPDATE}_FULFILLED`:
+			return { ...state, todos: action.payload }
 
 		default:
 			return state;
