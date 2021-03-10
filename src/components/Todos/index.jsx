@@ -53,11 +53,9 @@ const Todos = () => {
 						<FontAwesomeIcon icon={faPencilAlt} />
 					</button>
 				</Link>
-				<Link>
-					<button className="ml-1" alt="Delete">
-						<FontAwesomeIcon icon={faTrash} />
-					</button>
-				</Link>
+				<button className="ml-1" alt="Delete">
+					<FontAwesomeIcon icon={faTrash} />
+				</button>
 			</div>
 		));
 	};

@@ -40,7 +40,7 @@ export const getTodos = () => async (dispatch) => {
 };
 
 export const update_UserId = (payload) => (dispatch) => {
-	console.log('update_UserId');
+	// console.log('update_UserId');
 	dispatch({
 		type: `${UPDATE_USER_ID}_FULFILLED`,
 		payload: payload,
@@ -48,7 +48,7 @@ export const update_UserId = (payload) => (dispatch) => {
 };
 
 export const update_title = (payload) => (dispatch) => {
-	console.log('update_title');
+	// console.log('update_title');
 	dispatch({
 		type: `${UPDATE_TITLE}_FULFILLED`,
 		payload: payload,
@@ -76,9 +76,9 @@ export const add_todo = (payload) => async (dispatch) => {
 export const edit_todo = (payload) => async (dispatch) => {
 	dispatch({ type: `${GET_TODOS}_PENDING` });
 
-	console.log('====edit_todo================================');
+	/* console.log('====edit_todo================================');
 	console.log(payload);
-	console.log('====================================');
+	console.log('===================================='); */
 
 	try {
 		const response = await axios.post('https://jsonplaceholder.typicode.com/todos', payload);

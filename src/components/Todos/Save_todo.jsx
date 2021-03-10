@@ -8,8 +8,8 @@ import {
 	edit_todo,
 	getTodos,
 } from '../../actions/todosActions';
-import useDebounceValue from '../../hooks/useDebounceValue';
 import Fatal from '../General/Fatal';
+import DebouncedInput from '../General/DebouncedInput';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
@@ -17,11 +17,8 @@ const Save_todo = () => {
 	const todosReducer = useSelector((reducers) => reducers.todosReducer);
 	const dispatch = useDispatch();
 	const { userId, todoId } = useParams();
-	const [stUserId, setUserId] = useState(todosReducer.user_id);
-	const [stTitle, setStTitle] = useState(todosReducer.title);
-
-	const debouncedUserId = useDebounceValue(stUserId, 500);
-	const debouncedTitle = useDebounceValue(stTitle, 500);
+	const [stUserId, setUserId] = useState(todosReducer.user_id || '');
+	const [stTitle, setStTitle] = useState(todosReducer.title || '');
 
 	useEffect(() => {
 		let didCancel = false;
@@ -46,27 +43,13 @@ const Save_todo = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [todosReducer.todos]);
 
-	useEffect(() => {
-		let didCancel = false;
-		if (!didCancel) {
-			dispatch(update_UserId(debouncedUserId));
-		}
-		return () => {
-			didCancel = true;
-		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [debouncedUserId]);
+	const updateUserId = (value) => {
+		dispatch(update_UserId(value));
+	};
 
-	useEffect(() => {
-		let didCancel = false;
-		if (!didCancel) {
-			dispatch(update_title(debouncedTitle));
-		}
-		return () => {
-			didCancel = true;
-		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [debouncedTitle]);
+	const updateTitle = (value) => {
+		dispatch(update_title(value));
+	};
 
 	const save = () => {
 		const { user_id, title, todos } = todosReducer;
@@ -122,19 +105,11 @@ const Save_todo = () => {
 			{todosReducer.redirect && <Redirect to="/todos" />}
 			<h1>Save new To-do</h1>
 			User id:&nbsp;
-			<input
-				type="number"
-				value={stUserId}
-				onChange={(e) => setUserId(e.target.value)}
-			/>
+			<DebouncedInput initialValue={stUserId} cb={updateUserId} />
 			<br />
 			<br />
 			Title:&nbsp;
-			<input
-				type="Text"
-				value={stTitle}
-				onChange={(e) => setStTitle(e.target.value)}
-			/>
+			<DebouncedInput initialValue={stTitle} cb={updateTitle} />
 			<br />
 			<br />
 			<button onClick={save} disabled={validate()}>
