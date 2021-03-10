@@ -1,4 +1,4 @@
-import { GET_TODOS, UPDATE_USER_ID, UPDATE_TITLE, ADD_TODO, EDIT_TODO } from '../types/todosTypes';
+import { GET_TODOS, UPDATE_USER_ID, UPDATE_TITLE, ADD_TODO, EDIT_TODO, UPDATE } from '../types/todosTypes';
 import axios from 'axios';
 
 export const getTodos = () => async (dispatch) => {
@@ -81,7 +81,7 @@ export const edit_todo = (payload) => async (dispatch) => {
 	console.log('===================================='); */
 
 	try {
-		const response = await axios.post('https://jsonplaceholder.typicode.com/todos', payload);
+		const response = await axios.put(`https://jsonplaceholder.typicode.com/todos/${payload.id}`, payload);
 
 		console.log(response.data);
 		dispatch({ type: `${EDIT_TODO}_FULFILLED` });
@@ -93,4 +93,30 @@ export const edit_todo = (payload) => async (dispatch) => {
 			${e.message}`,
 		})
 	}
+}
+
+export const update_check = ({ user_id, todo_id }) => async (dispatch, getState) => {
+	const { todos } = getState().todosReducer;
+	const selected = todos[user_id][todo_id];
+
+	//@concept Immutability
+	//@context Whe we update a property, if we don't destructure inside the objects, the update can be applied without triggering a dispatch
+	//@a Create an updated object getting all the items from the actual reducer
+	const updated = {
+		...todos,
+	};
+	//@a Get the items by user and apply them to the user object
+	updated[user_id] = {
+		...todos[user_id]
+	};
+	//@a Get inside the selected item and destructure the actual item in reducer. And then update the property
+	updated[user_id][todo_id] = {
+		...todos[user_id][todo_id],
+		completed: !selected.completed
+	}
+
+	dispatch({
+		type: `${UPDATE}_FULFILLED`,
+		payload: updated,
+	})
 }
