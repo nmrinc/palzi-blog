@@ -4,4 +4,6 @@ export const UPDATE_TITLE = 'UPDATE_TITLE';
 export const ADD_TODO = 'ADD_TODO';
 export const EDIT_TODO = 'EDIT_TODO';
 export const UPDATE = 'UPDATE';
+export const DELETE = 'DELETE';
+export const CLEAN = 'CLEAN';
 

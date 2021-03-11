@@ -7,6 +7,7 @@ import {
 	add_todo,
 	edit_todo,
 	getTodos,
+	clear_form
 } from '../../actions/todosActions';
 import Fatal from '../General/Fatal';
 import DebouncedInput from '../General/DebouncedInput';
@@ -34,14 +35,17 @@ const Save_todo = () => {
 				dispatch(update_title(todo.title));
 				setUserId(todo.userId);
 				setStTitle(todo.title);
+			} else {
+				dispatch(clear_form());
+				setUserId('');
+				setStTitle('');
 			}
 		}
 
 		return () => {
 			didCancel = true;
 		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [todosReducer.todos]);
+	}, [dispatch, todoId, todosReducer.todos, userId]);
 
 	const updateUserId = (value) => {
 		dispatch(update_UserId(value));
@@ -93,12 +97,6 @@ const Save_todo = () => {
 			);
 		if (error) return <Fatal errMsg={error} />;
 	};
-
-	/* console.log('=====todosReducer===============================');
-	console.log(todosReducer);
-	console.log('=====debouncedUserId===============================');
-	console.log(debouncedUserId);
-	console.log('===================================='); */
 
 	return (
 		<div>

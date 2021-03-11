@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getTodos, update_check } from '../../actions/todosActions';
+import {
+	getTodos,
+	update_check,
+	delete_todo,
+} from '../../actions/todosActions';
 import Fatal from '../General/Fatal';
 import Skeleton from 'react-loading-skeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,10 +16,10 @@ const Todos = () => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (!Object.keys(todosReducer.todos).length) {
+		if (!Object.keys(todosReducer.todos).length && !todosReducer.isLoading) {
 			dispatch(getTodos());
 		}
-	}, [dispatch, todosReducer.todos]);
+	}, [dispatch, todosReducer.isLoading, todosReducer.todos]);
 
 	const showContent = () => {
 		const { todos, isLoading, error } = todosReducer;
@@ -59,7 +63,11 @@ const Todos = () => {
 						<FontAwesomeIcon icon={faPencilAlt} />
 					</button>
 				</Link>
-				<button className="ml-1" alt="Delete">
+				<button
+					className="ml-1"
+					alt="Delete"
+					onClick={() => dispatch(delete_todo(todo_id))}
+				>
 					<FontAwesomeIcon icon={faTrash} />
 				</button>
 			</div>
