@@ -1,3 +1,7 @@
+### Project developed as part of the
+# Platzi's Redux Course by Bedu
+
+-------------
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
